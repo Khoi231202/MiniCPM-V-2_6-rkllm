@@ -1,3 +1,10 @@
+---
+base_model:
+- openbmb/MiniCPM-V-2_6
+tags:
+- rknn
+- rkllm
+---
 注意: 由于疑似RKLLM那边的问题, 目前此模型的推理输出结果不正常 (https://github.com/airockchip/rknn-llm/issues/101), 未来修复后这个repo会更新.
 
 NOTE: Due to suspected issues in RKLLM(https://github.com/airockchip/rknn-llm/issues/101) , the model cannot be used normally for inference at the moment. Once fixed, this repo will be updated.

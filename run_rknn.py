@@ -6,7 +6,7 @@ from rknnlite.api.rknn_lite import RKNNLite
 import signal
 import cv2
 
-MODEL_PATH = "/home/firefly/qwen.rkllm"
+MODEL_PATH = "qwen.rkllm"
 VISION_ENCODER_PATH = "vision_transformer.rknn"
 handle = None
 img_size = 448
@@ -101,7 +101,7 @@ You are a helpful assistant.<|im_end|>
 <|im_start|>assistant
 
 """
-# 2.56->3.25>2.41->10.2
+
 # image_embeddings = np.load("image_embeddings_pth_orig.npy")
 # print(image_embeddings.shape)
 # rkllm_input = create_rkllm_input(RKLLMInputType.RKLLM_INPUT_EMBED, embed=image_embeddings.astype(np.float32))

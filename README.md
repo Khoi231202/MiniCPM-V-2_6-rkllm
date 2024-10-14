@@ -22,7 +22,7 @@ NOTE: Due to suspected issues in RKLLM(https://github.com/airockchip/rknn-llm/is
 
 1. 克隆或者下载此仓库到本地. 模型较大, 请确保有足够的磁盘空间.
    
-2. 开发板的RKNPU2内核驱动版本必须>=0.9.6才能运行这么大的模型. 
+2. 开发板的RKNPU2内核驱动版本必须>=0.9.6才能运行这么大的模型.  
    使用root权限运行以下命令检查驱动版本:
    ```bash
    > cat /sys/kernel/debug/rknpu/version 
@@ -74,9 +74,9 @@ python run_rknn.py
 
 ## 参考
 
-[sophgo/LLM-TPU models/MiniCPM-V-2_6](https://github.com/sophgo/LLM-TPU/tree/main/models/MiniCPM-V-2_6)
-[openbmb/MiniCPM-V-2_6](https://huggingface.co/openbmb/MiniCPM-V-2_6)
-[Qwen/Qwen2-7B](https://huggingface.co/Qwen/Qwen2-7B)
+[sophgo/LLM-TPU models/MiniCPM-V-2_6](https://github.com/sophgo/LLM-TPU/tree/main/models/MiniCPM-V-2_6)  
+[openbmb/MiniCPM-V-2_6](https://huggingface.co/openbmb/MiniCPM-V-2_6)  
+[Qwen/Qwen2-7B](https://huggingface.co/Qwen/Qwen2-7B)  
 
 
 ## English README
@@ -90,7 +90,7 @@ Run the Powerful MiniCPM-V-2.6 Visual Language Model on RK3588!
 
 1. Clone or download this repository locally. The model is large, so make sure you have enough disk space.
    
-2. The RKNPU2 kernel driver version on the development board must be >=0.9.6 to run such a large model. 
+2. The RKNPU2 kernel driver version on the development board must be >=0.9.6 to run such a large model.  
    Use the following command with root privileges to check the driver version:
    ```bash
    > cat /sys/kernel/debug/rknpu/version 
@@ -142,6 +142,6 @@ You can modify the content in `run_rknn.py` to test different inputs.
 
 ## References
 
-[sophgo/LLM-TPU models/MiniCPM-V-2_6](https://github.com/sophgo/LLM-TPU/tree/main/models/MiniCPM-V-2_6)
-[openbmb/MiniCPM-V-2_6](https://huggingface.co/openbmb/MiniCPM-V-2_6)
-[Qwen/Qwen2-7B](https://huggingface.co/Qwen/Qwen2-7B)
+[sophgo/LLM-TPU models/MiniCPM-V-2_6](https://github.com/sophgo/LLM-TPU/tree/main/models/MiniCPM-V-2_6)  
+[openbmb/MiniCPM-V-2_6](https://huggingface.co/openbmb/MiniCPM-V-2_6)  
+[Qwen/Qwen2-7B](https://huggingface.co/Qwen/Qwen2-7B)  

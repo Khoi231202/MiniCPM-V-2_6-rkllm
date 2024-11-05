@@ -4,7 +4,7 @@ from enum import IntEnum
 from typing import Callable, Any
 
 # Load the shared library
-_lib = ctypes.CDLL("librkllmrt.so")  # Adjust the library name if necessary
+_lib = ctypes.CDLL("./librkllmrt.so")  # Adjust the library name if necessary
 
 # Define enums
 class LLMCallState(IntEnum):
@@ -181,12 +181,12 @@ def destroy(handle: ctypes.c_void_p) -> None:
         raise RuntimeError(f"Failed to destroy RKLLM: {status}")
 
 def run(handle: ctypes.c_void_p, rkllm_input: RKLLMInput, rkllm_infer_params: RKLLMInferParam, userdata: Any) -> None:
-    status = _lib.rkllm_run(handle, ctypes.byref(rkllm_input), ctypes.byref(rkllm_infer_params), userdata)
+    status = _lib.rkllm_run(handle, ctypes.byref(rkllm_input), ctypes.byref(rkllm_infer_params), ctypes.c_void_p(userdata))
     if status != 0:
         raise RuntimeError(f"Failed to run RKLLM: {status}")
 
 def run_async(handle: ctypes.c_void_p, rkllm_input: RKLLMInput, rkllm_infer_params: RKLLMInferParam, userdata: Any) -> None:
-    status = _lib.rkllm_run_async(handle, ctypes.byref(rkllm_input), ctypes.byref(rkllm_infer_params), userdata)
+    status = _lib.rkllm_run_async(handle, ctypes.byref(rkllm_input), ctypes.byref(rkllm_infer_params), ctypes.c_void_p(userdata))
     if status != 0:
         raise RuntimeError(f"Failed to run RKLLM asynchronously: {status}")
 
@@ -212,8 +212,7 @@ def create_rkllm_input(input_type: RKLLMInputType, **kwargs) -> RKLLMInput:
     elif input_type == RKLLMInputType.RKLLM_INPUT_EMBED:
         embed = kwargs['embed']
         rkllm_input._input.embed_input.embed = numpy_to_c_array(embed, ctypes.c_float)
-        # rkllm_input._input.embed_input.n_tokens = embed.shape[1]
-        rkllm_input._input.embed_input.n_tokens = embed.shape[2]
+        rkllm_input._input.embed_input.n_tokens = embed.shape[1]
     elif input_type == RKLLMInputType.RKLLM_INPUT_TOKEN:
         tokens = kwargs['tokens']
         rkllm_input._input.token_input.input_ids = numpy_to_c_array(tokens, ctypes.c_int32)

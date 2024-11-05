@@ -59,7 +59,7 @@ def vision_encoder_process(load_ready_queue, embedding_queue, img_path_queue, st
 def llm_process(load_ready_queue, embedding_queue, prompt_queue, inference_done_queue, start_event):
 
     
-    MODEL_PATH = "/home/firefly/qwen.rkllm"
+    MODEL_PATH = "qwen.rkllm"
     handle = None
     
     def signal_handler(signal, frame):

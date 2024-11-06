@@ -95,7 +95,7 @@ test.jpg:
 
 #### 准备工作
 
-1. 安装rknn-toolkit2 v2.1.0或更高版本, 以及rkllm-toolkit v1.1.0或更高版本.
+1. 安装rknn-toolkit2 v2.1.0或更高版本, 以及rkllm-toolkit v1.1.2或更高版本.
 2. 下载此仓库到本地, 但不需要下载`.rkllm`和`.rknn`结尾的模型文件.
 3. 下载MiniCPM-V-2.6的huggingface模型仓库到本地. (https://huggingface.co/openbmb/MiniCPM-V-2_6)
   
@@ -217,7 +217,7 @@ test.jpg:
 
 #### Preparation
 
-1. Install rknn-toolkit2 v2.1.0 or higher, and rkllm-toolkit v1.1.0 or higher.
+1. Install rknn-toolkit2 v2.1.0 or higher, and rkllm-toolkit v1.1.2 or higher.
 2. Download this repository locally, but you don't need to download the model files ending with `.rkllm` and `.rknn`.
 3. Download the MiniCPM-V-2.6 Hugging Face model repository locally. (https://huggingface.co/openbmb/MiniCPM-V-2_6)
   

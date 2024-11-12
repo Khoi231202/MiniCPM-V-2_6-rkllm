@@ -11,7 +11,7 @@ tags:
 
 在RK3588上运行强大的MiniCPM-V-2.6 视觉大模型!
 
-- 推理速度(RK3588): 视觉编码器 4.8s(单核) + LLM 填充 2.2s (92 tokens / 42.5 tps) + 解码 3.25 tps
+- 推理速度(RK3588): 视觉编码器 3.2s(三核并行) + LLM 填充 1.7s (92 tokens / 53 tps) + 解码 4.03 tps
 - 内存占用(RK3588, 默认上下文长度): 视觉编码器 1.9GB + LLM 7.8GB = 9.7GB
 
 ## 使用方法
@@ -38,6 +38,8 @@ pip install numpy<2 opencv-python
 ```bash
 python multiprocess_inference.py
 ```
+
+如果实测性能不理想, 可以调整CPU调度器让CPU始终运行在最高频率, 并把推理程序绑定到大核(`taskset -c 4-7 python multiprocess_inference.py`)
 
 test.jpg:
 ![test.jpg](./test.jpg)
@@ -71,23 +73,24 @@ test.jpg:
 >
 >Start vision inference...
 >
->Vision encoder inference time: 4.92 seconds
+>Vision encoder inference time: 3.28 seconds
 >
->Time to first token: 1.95 seconds
+>Time to first token: 1.74 seconds
 >
->哇哦！这只像人一样的猫咪似乎正自信地走在街道上，手拿一把蓝白相间的伞。它穿着一件漂亮的外套和裤子，还有一双时尚的鞋子呢！
+>观察到一个人正走在街道上，旁边是一条繁忙的道路。他手里撑着一把蓝白相间的伞保护自己免受阳光直射的侵袭，并正在过马路横穿斑马线。
 >
->周围的环境也很热闹啊～路上停满了各种各样的汽车、卡车和公交车，还有红绿灯在指挥交通。猫猫身边还有一个栏杆，上面挂着几面旗帜，看起来好有趣。
+>附近停泊和行驶着几辆汽车，显示出这是一个熙攘的城市环境。在人行道的一侧可以看到各种树木和建筑物的存在，进一步增强了都市感。
 >
->天空一片蔚蓝，阳光明媚，猫猫似乎正在享受这美好的一天！喵呜~
+>从猫的角度看，这个人穿着米色外套、黑色裤子和蓝色鞋子，走在繁忙的街道上让人感觉很酷炫。同时这个人的行为也表明了他正在享受一个阳光明媚的日子，利用伞来保护自己免受直射阳光的影响。
+>总的来说这是一个宁静的城市环境，有一个人在过马路，周围停着汽车和各种树木建筑物的存在，营造出一种熙攘的城市氛围。
 >
 >(finished)
 >
 >--------------------------------------------------------------------------------------
 > Stage         Total Time (ms)  Tokens    Time per Token (ms)      Tokens per Second       
 >--------------------------------------------------------------------------------------
-> Prefill       1761.10          94        18.74                    53.38                   
-> Generate      25757.53         104       248.72                   4.02                    
+> Prefill       1708.63          94        18.18                    55.01                   
+> Generate      40668.17         164       248.97                   4.02                    
 >--------------------------------------------------------------------------------------
 >```
 
@@ -133,7 +136,7 @@ test.jpg:
 
 Run the Powerful MiniCPM-V-2.6 Visual Language Model on RK3588!
 
-- Inference speed (RK3588): Visual encoder 4.8s (single core) + LLM filling 2.2s (92 tokens / 42.5 tps) + decoding 3.25 tps
+- Inference speed (RK3588): Visual encoder 3.2s (triple core parallel) + LLM prefill 1.7s (92 tokens / 53 tps) + decoding 4.03 tps
 - Memory usage (RK3588, default context length): Visual encoder 1.9GB + LLM 7.8GB = 9.7GB
 
 ## Usage
@@ -160,6 +163,8 @@ You also need to manually install rknn-toolkit2-lite2.
 ```bash
 python multiprocess_inference.py
 ```
+
+If the performance is not satisfactory, you can change the CPU scheduler to keep the CPU running at the highest frequency, and bind the inference program to the big core cluster (`taskset -c 4-7 python multiprocess_inference.py`).
 
 test.jpg:
 ![test.jpg](./test.jpg)
@@ -193,23 +198,29 @@ test.jpg:
 >
 >Start vision inference...
 >
->Vision encoder inference time: 4.80 seconds
+>Vision encoder inference time: 3.26 seconds
 >
->In this urban street scene, an older individual is seen crossing at a pedestrian crosswalk with an umbrella held aloft against what appears to be bright sunlight. The person's attire suggests preparedness for varying weather conditions - they're dressed casually yet practically, wearing trousers and sneakers paired with a jacket that can offer some protection from sun or light rain.
->  
->The vehicles on the road hint at a typical busy day in this locale; there are various models visible including what looks like an SUV. The presence of multiple lanes suggests traffic is managed for different types of vehicular movement - possibly separate lines for cars and larger trucks, ensuring safety for all commuters.
+>Time to first token: 1.72 seconds
 >
->In contrast to the hustle and bustle on the road, trees line one side of the street, providing a touch of nature amidst urban development. Their green foliage might offer shade during hotter times of the day or act as windbreakers in windy conditions.
+>The image depicts an urban street scene with various elements that contribute to its bustling atmosphere.
 >
->Traffic signs are visible above, which likely provide essential directions for both drivers and pedestrians alike, contributing to organized movement within this bustling environment. The presence of these elements collectively paints a picture of an orderly city where nature coexists with human-made structures, while people navigate their way through daily life amidst the backdrop of urban infrastructure.
+>A person, likely male based on appearance, is walking across the crosswalk carrying a blue and white checked umbrella. He's dressed casually yet stylishly, wearing a beige jacket over what appears to be dark pants or leggings paired with patterned slip-on shoes in shades of gray, black, and yellow.
+>
+>The street itself features multiple lanes filled with vehicles; there are cars visible on both sides, including a prominent SUV that is parked by the roadside. The presence of these automobiles adds to the sense of movement and activity within this urban setting.
+>
+>In terms of infrastructure, the crosswalk has clear pedestrian markings for safety, and an adjacent railing provides support or boundary along one side of the street. Beyond the immediate foreground where pedestrians traverse, there's a sidewalk lined with lush green trees which add natural beauty to the otherwise concrete-dominated environment.
+>
+>The sky is visible in parts through breaks in clouds above, indicating fair weather conditions that contribute positively to outdoor activities like walking down this cityscape path.
+>
+>Overall, it appears as though an ordinary day unfolds within this urban setting, capturing moments of daily life and movement.
 >
 >(finished)
 >
 >--------------------------------------------------------------------------------------
 > Stage         Total Time (ms)  Tokens    Time per Token (ms)      Tokens per Second       
 >--------------------------------------------------------------------------------------
-> Prefill       1712.87          94        18.22                    54.88                   
-> Generate      60417.39         243       249.58                   4.01                    
+> Prefill       1714.78          94        18.24                    54.82                   
+> Generate      58689.71         236       249.75                   4.00                    
 >--------------------------------------------------------------------------------------
 >```
 

@@ -21,7 +21,7 @@ def vision_encoder_process(load_ready_queue, embedding_queue, img_path_queue, st
     vision_encoder.load_rknn(VISION_ENCODER_PATH)
     end_time = time.time()
     print(f"Vision encoder loaded in {end_time - start_time:.2f} seconds")
-    vision_encoder.init_runtime()
+    vision_encoder.init_runtime(core_mask=RKNNLite.NPU_CORE_0_1_2)
     
     # 通知主进程加载完成
     load_ready_queue.put("vision_ready")

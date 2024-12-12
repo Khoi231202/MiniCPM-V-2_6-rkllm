@@ -120,6 +120,7 @@ test.jpg:
 - ~~由于疑似RKLLM中存在的问题, 目前此模型无法正常推理.~~ (已修复)
 - ~~由于RKLLM中存在的问题, 目前视觉编码器和LLM无法同时被加载, 必须先卸载掉视觉编码器, 再重新加载LLM. 如果要推理多次, 必须重复执行卸载和加载操作, 速度非常慢.~~ (已修复)
 - 由于疑似RKLLM中存在的问题, 如果视觉编码器和LLM加载进同一个Python进程, 会导致LLM推理时报错段错误. 可以使用多进程来解决. 参考`multiprocess_inference.py`.
+- 由于RKLLM中存在的问题, 输入序列较长时LLM推理会段错误. https://github.com/airockchip/rknn-llm/issues/123 
 - 由于RKLLM的多模态输入的限制, 在整个对话中只能加载一张图片. 可以通过Embedding输入的方式来解决, 但我没有实现.
 - 没有实现多轮对话.
 - RKLLM的w8a8量化貌似存在不小的精度损失.
@@ -250,6 +251,7 @@ test.jpg:
 - ~~Due to a suspected issue in RKLLM, this model currently cannot perform inference normally.~~ (Fixed)
 - ~~Due to an issue in RKLLM, the visual encoder and LLM cannot be loaded simultaneously at present. The visual encoder must be unloaded first, then the LLM reloaded. If multiple inferences are required, the unloading and loading operations must be repeated, which is very slow.~~ (Fixed)
 - Due to a suspected issue in RKLLM, if the visual encoder and LLM are loaded into the same Python process, the LLM inference will segmentation fault. You can use multiprocessing to solve this problem. See `multiprocess_inference.py`.
+- Due to an issue in RKLLM, LLM inference will segfault with long input sequences. See https://github.com/airockchip/rknn-llm/issues/123 
 - Due to the limitation of RKLLM's multimodal input, only one image can be loaded in the entire conversation. This can be solved by using embedding input, but I haven't implemented it yet.
 - I don't implement multi-turn chat.
 - There is a significant precision loss in RKLLM's w8a8 quantization.

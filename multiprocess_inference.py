@@ -192,12 +192,12 @@ How many people are in {{./test.jpg}}?
                 
             img_path = img_match.group(1)
             # 将图片标记替换为<image>标记
+            image_placeholder = '<image_id>0</image_id><image>\n'  # 先定义替换文本
             prompt = f"""<|im_start|>system
 You are a helpful assistant.<|im_end|>
 <|im_start|>user
-{full_input.replace(img_match.group(0), '<image>')}<|im_end|>
+{full_input.replace(img_match.group(0), image_placeholder)}<|im_end|>
 <|im_start|>assistant
-
 """
             img_path_queue.put(img_path)
             prompt_queue.put(prompt)

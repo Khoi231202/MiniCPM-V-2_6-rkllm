@@ -1,3 +1,5 @@
+import faulthandler
+faulthandler.enable()
 import os
 import time
 import signal

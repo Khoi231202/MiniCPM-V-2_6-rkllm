@@ -12,7 +12,7 @@ from rknnlite.api.rknn_lite import RKNNLite
 # 视觉编码器进程
 def vision_encoder_process(load_ready_queue, embedding_queue, img_path_queue, start_event):
     
-    VISION_ENCODER_PATH = "vision_transformer.rknn"
+    VISION_ENCODER_PATH = "/root/rknn-llm/models/MiniCPM_vision.rknn"
     img_size = 448
     
     # 初始化视觉编码器
@@ -61,7 +61,7 @@ def vision_encoder_process(load_ready_queue, embedding_queue, img_path_queue, st
 def llm_process(load_ready_queue, embedding_queue, prompt_queue, inference_done_queue, start_event):
 
     
-    MODEL_PATH = "qwen.rkllm"
+    MODEL_PATH = "/root/rknn-llm/models/MiniCPM-V.rkllm"
     handle = None
     
     def signal_handler(signal, frame):
@@ -77,17 +77,22 @@ def llm_process(load_ready_queue, embedding_queue, prompt_queue, inference_done_
     
     inference_count = 0
     inference_start_time = 0
+    collected_output = []
+
     def result_callback(result, userdata, state):
-        nonlocal inference_start_time, inference_count
+        nonlocal inference_start_time, inference_count, collected_output
         if state == LLMCallState.RKLLM_RUN_NORMAL:
             if inference_count == 0:
                 first_token_time = time.time()
                 print(f"Time to first token: {first_token_time - inference_start_time:.2f} seconds")
             inference_count += 1
-            print(result.contents.text.decode(), end="", flush=True)
+            token = result.contents.text.decode()
+            print(token, end="", flush=True)
+            collected_output.append(token)
         elif state == LLMCallState.RKLLM_RUN_FINISH:
             print("\n\n(finished)")
-            inference_done_queue.put("DONE")
+            inference_done_queue.put(collected_output)
+            collected_output= []
         elif state == LLMCallState.RKLLM_RUN_ERROR:
             print("\nError occurred during LLM call")
             inference_done_queue.put("ERROR")
@@ -101,7 +106,7 @@ def llm_process(load_ready_queue, embedding_queue, prompt_queue, inference_done_
     extend_param = RKLLMExtendParam()
     extend_param.base_domain_id = 1
     param.extend_param = extend_param
-    
+
     model_size = os.path.getsize(MODEL_PATH)
     print(f"Start loading language model (size: {model_size / 1024 / 1024:.2f} MB)")
     start_time = time.time()

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Form</title>
+</head>
+<body>
+
+    <h2>Upload Text and Image</h2>
+
+    <form id="uploadForm">
+        <label for="text">Text:</label>
+        <input type="text" id="text" name="text" required>
+        <br><br>
+
+        <label for="image">Image:</label>
+        <input type="file" id="image" name="image" accept="image/*" required>
+        <br><br>
+
+        <button type="submit">Upload</button>
+    </form>
+
+    <h3>Response:</h3>
+    <pre id="response"></pre>
+
+    <script>
+        document.getElementById("uploadForm").addEventListener("submit", function(event) {
+            event.preventDefault();  // Prevent page reload
+
+            let formData = new FormData();
+            formData.append("text", document.getElementById("text").value);
+            formData.append("image", document.getElementById("image").files[0]);
+
+            fetch("http://127.0.0.1:8080/upload", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("response").textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                document.getElementById("response").textContent = "Error: " + error;
+            });
+        });
+    </script>
+
+</body>
+</html>
